@@ -20,14 +20,14 @@ def to_int(value):
 
 @app.route("/account")
 def account():
-    account_id = request.args.get("account_id", "").upper().strip()
+    account_id = request.args.get("account_id", "").strip()
     field      = request.args.get("field", None)
 
     if not account_id:
         return jsonify({"status": "error", "message": "account_id is required"}), 400
 
     rows  = get_all_rows("Accounts")
-    match = next((r for r in rows if r["account_id"].upper() == account_id), None)
+    match = next((r for r in rows if str(r["account_id"]).strip() == account_id.strip()), None)
 
     if not match:
         return jsonify({"status": "not_found", "account_id": account_id}), 404
